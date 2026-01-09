@@ -111,6 +111,7 @@ else:
     min_date = df["date"].min()
     max_date = df["date"].max()
 
+
     filter_type = st.sidebar.radio("Analysis Type", ["Date Range", "Monthly"], index=0)
 
     if filter_type == "Date Range":
@@ -125,19 +126,26 @@ else:
             filtered_df = df[(df["date"] >= start_date) & (df["date"] <= end_date)]
         else:
             filtered_df = df
-        # For other expenses tab compatibility
         filter_month = None
+        selected_month = None
     else:
         # Monthly filter
-        months = pd.to_datetime(df["date"]).dt.to_period("M").unique().sort_values()
-        month_strs = [str(m) for m in months]
+        months = pd.to_datetime(df["date"]).dt.to_period("M")
+        month_list = sorted(months.unique())
+        month_strs = [str(m) for m in month_list]
         selected_month = st.sidebar.selectbox("Select Month", month_strs, index=len(month_strs)-1)
         filter_month = pd.Period(selected_month)
-        filtered_df = df[pd.to_datetime(df["date"]).dt.to_period("M") == filter_month]
+        filtered_df = df[months == filter_month]
+
+
 
 
     # Summary metrics
-    st.header("Summary")
+    if filter_type == "Monthly" and selected_month:
+        st.header(f"Summary for {selected_month}")
+    else:
+        st.header("Summary")
+
     col1, col2, col3, col4, col5 = st.columns(5)
 
     total_earnings = filtered_df["earnings"].sum()
@@ -155,6 +163,14 @@ else:
     col3.metric("Net Profit", f"₹{total_profit:,.0f}")
     col4.metric("Total Rides", f"{total_rides:,}")
     col5.metric("Avg per Ride", f"₹{avg_per_ride:,.0f}")
+
+    # Show daily records for selected month if in Monthly mode
+    if filter_type == "Monthly" and selected_month:
+        st.subheader(f"Daily Records for {selected_month}")
+        if not filtered_df.empty:
+            st.dataframe(filtered_df.sort_values("date"), use_container_width=True)
+        else:
+            st.info("No records for this month.")
 
     # Monthly Summary Section
     st.header("Monthly Summary")
@@ -347,7 +363,8 @@ else:
                     (other_expenses_df["date"] <= end_date)
                 ]
             elif filter_type == "Monthly" and filter_month is not None:
-                filtered_expenses = other_expenses_df[pd.to_datetime(other_expenses_df["date"]).dt.to_period("M") == filter_month]
+                months_exp = pd.to_datetime(other_expenses_df["date"]).dt.to_period("M")
+                filtered_expenses = other_expenses_df[months_exp == filter_month]
             else:
                 filtered_expenses = other_expenses_df
 
