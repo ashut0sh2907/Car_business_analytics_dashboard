@@ -1,0 +1,32 @@
+Analysis saved to excel_analysis.txt
+ord.xlsx
+Total Sheets: 5
+Sheet Names: Daily Record 2025, Daily Record 2026, Other Expenses 2025, Other Expenses 2026, Monthly Summary
+
+Sheet: Daily Record 2025
+  Rows: 96, Columns: 9
+  Headers: ['Date', 'Ride Count', 'Earnings (₹)', 'CNG Expenses (₹)', 'Driver Pass (₹)+OLA Subscription', 'InDrive Top-up', 'Odometer(Km)', 'EOD Odometer(km)', 'Daily Net (₹)']
+
+Sheet: Daily Record 2026
+  Rows: 89, Columns: 9
+  Headers: ['Date', 'Ride Count', 'Earnings (₹)', 'CNG Expenses (₹)', 'Driver Pass (₹)+OLA Subscription', 'InDrive Top-up', 'Odometer(Km)', 'EOD Odometer(km)', 'Daily Net (₹)']
+
+Sheet: Other Expenses 2025
+  Rows: 79, Columns: 6
+  Headers: ['Date', 'Expenses(₹)', 'Months', 'Car EMI(₹)', 'Pg Rent(₹)']
+
+Sheet: Other Expenses 2026
+  Rows: 79, Columns: 6
+  Headers: ['Date', 'Expenses(₹)', 'Months', 'Car EMI(₹)', 'Pg Rent(₹)']
+
+Sheet: Monthly Summary
+  Rows: 1000, Columns: 8
+  Headers: ['Month', 'Total Earnings (₹)', 'Total CNG Expense (₹)', 'Total Driver pass (₹)', 'Total Monthly earning(₹)', 'Total Expenses (₹)', 'Net Profit (₹)', 'Total Distance (km)']
+
+COLUMN COMPARISON:
+Common columns: []
+Daily Record 2025 unique: ['Driver Pass (₹)+OLA Subscription', 'CNG Expenses (₹)', 'EOD Odometer(km)', 'Ride Count', 'Daily Net (₹)', 'Earnings (₹)', 'Date', 'Odometer(Km)', 'InDrive Top-up']
+Daily Record 2026 unique: ['Driver Pass (₹)+OLA Subscription', 'CNG Expenses (₹)', 'EOD Odometer(km)', 'Ride Count', 'Daily Net (₹)', 'Earnings (₹)', 'Date', 'Odometer(Km)', 'InDrive Top-up']
+Other Expenses 2025 unique: ['Pg Rent(₹)', 'Car EMI(₹)', 'Months', 'Date', 'Expenses(₹)']
+Other Expenses 2026 unique: ['Pg Rent(₹)', 'Car EMI(₹)', 'Months', 'Date', 'Expenses(₹)']
+Monthly Summary unique: ['Month', 'Total Expenses (₹)', 'Total CNG Expense (₹)', 'Total Driver pass (₹)', 'Net Profit (₹)', 'Total Monthly earning(₹)', 'Total Distance (km)', 'Total Earnings (₹)']
