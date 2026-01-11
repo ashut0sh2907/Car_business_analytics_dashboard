@@ -4,12 +4,58 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 from database import get_session, DailyRecord, OtherExpense, init_db
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 st.set_page_config(
     page_title="Car Business Analytics",
     page_icon="🚗",
     layout="wide"
 )
+
+
+def check_authentication():
+    """
+    Verify user is authenticated. Display login form if not.
+    Uses st.session_state to persist login across reruns.
+    """
+    # Initialize session state
+    if "authenticated" not in st.session_state:
+        st.session_state.authenticated = False
+
+    # Allow execution if authenticated
+    if st.session_state.authenticated:
+        return
+
+    # Get password from environment
+    correct_password = os.getenv("PASSWORD")
+
+    if not correct_password:
+        st.error("PASSWORD not configured. Please set PASSWORD in .env file.")
+        st.stop()
+
+    # Display login form
+    st.write("### 🔒 Please enter your password to access the dashboard")
+
+    with st.form("login_form"):
+        password = st.text_input("Password", type="password", placeholder="Enter password")
+        submitted = st.form_submit_button("Login", use_container_width=True)
+
+        if submitted:
+            if password == correct_password:
+                st.session_state.authenticated = True
+                st.success("Authentication successful!")
+                st.rerun()
+            else:
+                st.error("Incorrect password. Please try again.")
+
+    st.stop()
+
+
+# Call authentication check
+check_authentication()
 
 st.title("🚗 Car Business Analytics Dashboard")
 
@@ -108,6 +154,14 @@ else:
 
     # --- Enhanced Filters: Date Range or Monthly ---
     st.sidebar.header("Filters")
+
+    # Logout button
+    if st.sidebar.button("🚪 Logout", key="logout_btn"):
+        st.session_state.authenticated = False
+        st.rerun()
+
+    st.sidebar.divider()
+
     min_date = df["date"].min()
     max_date = df["date"].max()
 
