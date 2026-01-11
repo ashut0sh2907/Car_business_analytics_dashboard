@@ -200,8 +200,6 @@ else:
     else:
         st.header("Summary")
 
-    col1, col2, col3, col4, col5 = st.columns(5)
-
     total_earnings = filtered_df["earnings"].sum()
     total_expenses = (
         filtered_df["cng_expenses"].sum() +
@@ -212,11 +210,25 @@ else:
     total_rides = filtered_df["ride_count"].sum()
     avg_per_ride = total_earnings / total_rides if total_rides > 0 else 0
 
+    # Calculate expense breakdown
+    cng_expenses = filtered_df["cng_expenses"].sum()
+    driver_pass_expenses = (
+        filtered_df["driver_pass_subscription"].sum() +
+        filtered_df["indrive_topup"].sum()
+    )
+
+    # Top row - High-level metrics
+    col1, col2, col3 = st.columns(3)
     col1.metric("Total Earnings", f"₹{total_earnings:,.0f}")
     col2.metric("Total Expenses", f"₹{total_expenses:,.0f}")
     col3.metric("Net Profit", f"₹{total_profit:,.0f}")
-    col4.metric("Total Rides", f"{total_rides:,}")
-    col5.metric("Avg per Ride", f"₹{avg_per_ride:,.0f}")
+
+    # Bottom row - Detailed breakdown
+    col4, col5, col6, col7 = st.columns(4)
+    col4.metric("CNG Expenses", f"₹{cng_expenses:,.0f}")
+    col5.metric("Driver Pass", f"₹{driver_pass_expenses:,.0f}")
+    col6.metric("Total Rides", f"{total_rides:,}")
+    col7.metric("Avg per Ride", f"₹{avg_per_ride:,.0f}")
 
     # Show daily records for selected month if in Monthly mode
     if filter_type == "Monthly" and selected_month:
