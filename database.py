@@ -10,10 +10,15 @@ DATABASE_URL = os.getenv(
     "sqlite:///car_business.db"
 )
 
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False}  # Required for Streamlit multi-threading
-)
+# Detect database type and configure accordingly
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(
+        DATABASE_URL,
+        connect_args={"check_same_thread": False}  # SQLite multi-threading
+    )
+else:
+    # PostgreSQL (Supabase) - no special connect_args needed
+    engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
 
